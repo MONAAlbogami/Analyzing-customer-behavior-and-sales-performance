@@ -1,0 +1,22 @@
+Month_Name = FORMAT(sales_data_final[Date], "MMMM")
+
+Average_Rating = (customer_feedback_final[Product_Quality_Rating] + customer_feedback_final[Service_Rating]) / 2
+
+Rating_Category = 
+SWITCH(
+    TRUE(),
+    customer_feedback_final[Average_Rating] >= 4, "مرتفع",
+    customer_feedback_final[Average_Rating] >= 2.5, "متوسط",
+    "منخفض"
+)
+Total_Revenue = SUMX(sales_data_final, sales_data_final[Quantity] * sales_data_final[Price])
+
+Total_Profit = 
+SUMX(
+    sales_data_final, 
+    (sales_data_final[Price] - RELATED(products[Cost])) * sales_data_final[Quantity]
+)
+
+Unique_Customers = DISTINCTCOUNT(sales_data_final[Customer_ID])
+
+Customer_Satisfaction = AVERAGE(customer_feedback_final[Average_Rating])
